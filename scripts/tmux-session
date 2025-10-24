@@ -1,0 +1,43 @@
+#!/usr/bin/env bash
+
+PROJECT_DIRS=(
+    "$HOME/Documents"
+    "$HOME/Documents/projects"
+    "$HOME/code"
+    "$HOME"
+)
+
+# Find project directories using fd
+find_projects() {
+    for dir in "${PROJECT_DIRS[@]}"; do
+        [[ -d "$dir" ]] && fd -H -t d -d 2 --absolute-path . "$dir"
+    done
+}
+
+# Get session name from path
+session_name() {
+    basename "$1" | sed 's/[. ]/_/g'
+}
+
+# Main
+projects=$(find_projects | sort -u)
+selected=$(echo "$projects" | fzf --reverse --prompt="Select project: ")
+
+[[ -z "$selected" ]] && exit 0
+
+session=$(session_name "$selected")
+
+if tmux has-session -t "$session" 2>/dev/null; then
+    if [[ -n "$TMUX" ]]; then
+        tmux switch-client -t "$session"
+    else
+        tmux attach-session -t "$session"
+    fi
+else
+    if [[ -n "$TMUX" ]]; then
+        tmux new-session -d -s "$session" -c "$selected"
+        tmux switch-client -t "$session"
+    else
+        tmux new-session -s "$session" -c "$selected"
+    fi
+fi

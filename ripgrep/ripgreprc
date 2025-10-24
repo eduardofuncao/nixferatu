@@ -1,0 +1,17 @@
+# Always show line numbers
+--line-number
+
+# Enable smart case search
+--smart-case
+
+# Ignore binary files
+# --ignore-file ~/.config/ripgrep/ignore
+
+# Show file headings
+--heading
+
+# Show context (2 lines before and after match)
+# --context 2
+
+# Enable colors
+# --colors 'match:bg:yellow'
