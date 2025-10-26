@@ -19,19 +19,19 @@ nix-shell -p git vim
 
 - clone the repo in the $HOME directory
 ```bash
-git clone --branch nixos-from-scratch https://github.com/eduardofuncao/dotfiles
+git clone https://github.com/eduardofuncao/nixferatu
 ```
 
 - copy needed config files to `$HOME/.config/`
 ```bash
 mkdir ~/.config
-cd ~/dotfiles
+cd ~/nixferatu
 cp -r fish/ niri/ nvim/ ripgrep/ scripts/ swayidle/ wallpapers/ ~/.config
 sudo cp kanata/kanata.kbd /etc/
 ```
 ps. kitty, tmux and waybar config files are managed directly through nix
 
-- copy the nixos config files in `$HOME/dotfiles/nixos` directory into `/etc/nixos/`,
+- copy the nixos config files in `$HOME/nixferatu/nixos` directory into `/etc/nixos/`,
 keeping only your automatically generated `hardware-configuration.nix` file
 ```bash
 # backup the current hardware-configuration.nix
@@ -40,8 +40,8 @@ sudo cp /etc/nixos/hardware-configuration.nix /tmp/
 # remove everything from /etc/nixos
 sudo rm -rf /etc/nixos/*
 
-# copy everything from your dotfiles/nixos to /etc/nixos
-sudo cp -rT ~/dotfiles/nixos /etc/nixos
+# copy everything from your nixferatu/nixos to /etc/nixos
+sudo cp -rT ~/nixferatu/nixos /etc/nixos
 
 # restore the hardware-configuration.nix file
 sudo mv /tmp/hardware-configuration.nix /etc/nixos/nixos
